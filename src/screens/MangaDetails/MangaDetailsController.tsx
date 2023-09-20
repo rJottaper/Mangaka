@@ -15,7 +15,8 @@ interface MangaProps {
 const MangaDetailsController = ({ id }: any) => {
   const [manga, setManga] = useState<MangaProps>();
   const [mangaChapters, setMangaChapters]: any = useState([]);
-  const [selectedChapter, setSelectedChapter] = useState<string | undefined>()
+  const [selectedChapter, setSelectedChapter] = useState<number | undefined>();
+  const [mangaPages, setMangaPages] = useState();
 
   const getMangaDetails = async () => {
     const { data }: any = await API.get(`mangadex/info/${id}`);
@@ -47,10 +48,37 @@ const MangaDetailsController = ({ id }: any) => {
   });
 
   const handleSelectChapter = (chapter: string) => {
-    setSelectedChapter(chapter);
+    setSelectedChapter(parseInt(chapter));
   };
 
-  return { manga, mangaChapters, selectedChapter, handleSelectChapter, animationStyle };
+  const nextChapter = () => {
+    if (selectedChapter) {
+      setSelectedChapter(selectedChapter + 1)
+    };
+  };
+
+  const previousChapter = () => {
+    if (selectedChapter) {
+      setSelectedChapter(selectedChapter - 1)
+    };
+  };
+
+  const getChapter = async () => {
+    console.warn('Here');
+    try {
+      // const { data } = await API.get(`mangadex/read/${id}/${selectedChapter}`);
+      const { data } = await API.get(`mangadex/read/5f7891b4-f048-4516-9c75-7bcd6dbd1451`);
+      setMangaPages(data);
+    } catch (error) {
+      console.warn(error);
+    };
+  };
+
+  useEffect(() => {
+    if (selectedChapter !== undefined) getChapter();
+  }, [selectedChapter]);
+
+  return { manga, mangaChapters, selectedChapter, handleSelectChapter, mangaPages, nextChapter, previousChapter, animationStyle };
 };
 
 export default MangaDetailsController;

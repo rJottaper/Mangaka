@@ -1,5 +1,6 @@
-import { SafeAreaView, ScrollView, View, Text, Image, Dimensions, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, Image, Dimensions, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import Animated from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Header from '../../components/Header';
 import Colors from '../../global/Colors';
@@ -26,6 +27,25 @@ const MangaDetails = ({ route }: any) => {
         <Animated.View style={Controller.animationStyle}>
           <Select chapters={Controller.mangaChapters} chapterNumber={Controller.selectedChapter} selectChapter={Controller.handleSelectChapter} />
         </Animated.View>
+        { Controller.selectedChapter ? 
+          <>
+            <FlatList  
+              data={Controller.mangaPages}
+              keyExtractor={(item, index) => item.key}            
+              renderItem={({ item }) => <Image style={styles.mangaPage} source={{ uri: item.img }} />}
+            />
+             <View style={styles.viewButtons}>
+              <TouchableOpacity style={styles.button} onPress={() => Controller.previousChapter()}>
+                <Icon style={[styles.textButton, { marginLeft: 6 }]} name='arrow-back-ios' />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={() => Controller.nextChapter()}>
+                <Icon style={styles.textButton} name='arrow-forward-ios' />
+              </TouchableOpacity>
+            </View>
+          </>
+          :
+          false
+        }
       </ScrollView>
     </SafeAreaView>
   );
@@ -68,6 +88,32 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'Inconsolata Regular Regular',
     color: Colors.grey,
+  },
+  viewButtons: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: 20
+  },
+  button: {
+    width: 60,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.white,
+    borderRadius: 6,
+    marginRight: 10
+  },
+  textButton: {
+    fontSize: 24,
+    fontFamily: 'Inconsolata Regular Regular',
+    color: Colors.white,
+  },
+  mangaPage: {
+    width: '100%',
+    height: 600,
+    paddingHorizontal: 20
   }
 });
 

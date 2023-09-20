@@ -15,7 +15,7 @@ const ChapterNumber = ({ number, onPress }: any) => {
 
 interface SelectProps {
   chapters: any;
-  chapterNumber?: string;
+  chapterNumber?: number;
   selectChapter?: (chapter: string) => void;
 };
 
@@ -34,7 +34,7 @@ const Select = ({ chapters, chapterNumber, selectChapter }: SelectProps) => {
   return (
     <View style={{ marginVertical: 20, marginHorizontal: 20 }}>
       <TouchableOpacity style={styles.selectView} onPress={() => setIsOpen(!isOpen)}>
-        <Text style={styles.selectText}>{selectedChapter ? selectedChapter : 'Chapters'}</Text>
+        <Text style={styles.selectText}>{chapterNumber ? chapterNumber : 'Chapters'}</Text>
         <Icon style={styles.selectArrow} name={isOpen ? 'arrow-upward' : 'arrow-downward'} />
       </TouchableOpacity>
       { isOpen ? 
