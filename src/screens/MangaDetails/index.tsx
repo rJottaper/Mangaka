@@ -15,7 +15,7 @@ const MangaDetails = ({ route }: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Header headerScreen screenTitle={Controller.manga ? Controller.manga.title : ''} />
+        <Header headerScreen screenTitle={Controller.manga ? Controller.manga.title : ''} favoritePress={() => Controller.isFavorite ? Controller.removeFavoriteManga() : Controller.addFavoriteManga()} isFavorite={Controller.isFavorite} />
         <View style={styles.viewMangaDetails}>
           { Controller.manga ? <Animated.Image style={[styles.mangaImage, Controller.animationStyle]} source={{ uri: Controller.manga.image }} /> : <Animated.View style={[styles.mangaImage, Controller.animationStyle]} /> }
           <Animated.View style={[styles.viewDetails, Controller.animationStyle]}>

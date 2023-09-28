@@ -14,9 +14,10 @@ interface HeaderProps {
   searchPress?: any;
   goBackPress?: any;
   favoritePress?: any;
+  isFavorite?: boolean;
 };
 
-const Header = ({ screenTitle, headerScreen, justBack, searchPress, goBackPress, favoritePress }: HeaderProps) => {
+const Header = ({ screenTitle, headerScreen, justBack, searchPress, goBackPress, favoritePress, isFavorite }: HeaderProps) => {
   const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
   if (headerScreen) {
@@ -27,7 +28,7 @@ const Header = ({ screenTitle, headerScreen, justBack, searchPress, goBackPress,
         </TouchableOpacity>
         <Text numberOfLines={1} style={[styles.appTitle, { width: '62%', textAlign: 'center' }]}>{screenTitle}</Text>
         <TouchableOpacity style={styles.appIcon} onPress={favoritePress}>
-          <Icon style={styles.icon} name='favorite-border' />
+          <Icon style={[styles.icon, { color: isFavorite ? Colors.red : Colors.white }]} name={isFavorite ? 'favorite' : 'favorite-border'} />
         </TouchableOpacity>
       </View>
     );
